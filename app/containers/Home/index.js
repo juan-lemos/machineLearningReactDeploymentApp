@@ -4,75 +4,92 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Row } from 'react-bootstrap';
-
+import { Well, Form, FormGroup, FormControl, Image } from 'react-bootstrap';
+import LoadingIndicator from 'components/LoadingIndicator';
+import Title from 'components/Title';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectAzure, makeSelectAzureError, makeSelectAzureLoading } from './selectors';
+
+import image1 from '../../images/gillSize.png';
 import reducer from './reducer';
 import { azureMl } from './actions';
 import saga from './saga';
 
+
 export class Home extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   componentWillMount() {
-    this.props.onAzureRequest(
-      {
-        Inputs: {
-          input1: {
-            ColumnNames: [
-              'class',
-              'bruises',
-              'odor',
-              'gill-size',
-              'gill-color',
-              'stalk-surface-above-ring',
-              'stalk-surface-below-ring',
-              'stalk-color-above-ring',
-              'stalk-color-below-ring',
-              'ring-type',
-              'spore-print-color',
-            ],
-            Values: [
-              [
-                '',
-                't',
-                'p',
-                'n',
-                'k',
-                's',
-                's',
-                'w',
-                'w',
-                'p',
-                'k',
-              ],
-            ],
-          },
-        },
-        GlobalParameters: {},
-      }
+    // this.props.onAzureRequest(
+    //   {
+    //     bruises: 't',
+    //     odor: 'p',
+    //     gillsize: 'n',
+    //     gillcolor: 'k',
+    //     stalksurfaceabovering: 's',
+    //     stalksurfacebelowring: 's',
+    //     stalkcolorabovering: 'w',
+    //     stalkcolorbelowring: 'w',
+    //     ringtype: 'p',
+    //     sporeprintcolor: 'k',
+    //   }
+    // );
+  }
 
-    );
+  componentWillReceiveProps(nextProps) {
+    // if (!nextProps.loadingAzure && nextProps.responseAzure != null) {
+    //   console.log(nextProps.responseAzure);
+    // }
   }
 
   render() {
+    // let bodyRender;
+    // if (this.props.loadingAzure) {
+    //   bodyRender = <LoadingIndicator />;
+    // } else if (this.props.errorLoadingAzure) {
+    //   bodyRender = <div>Error!</div>;
+    // } else if (this.props.responseAzure != null) {
+    //   bodyRender = (
+    //     <div>
+    //     </div>
+    //   );
+    // }
+
     return (
       <div>
         <Helmet>
           <title>Hongos</title>
           <meta name="description" content="Description of Home" />
         </Helmet>
-        <Row>
-
-        </Row>
-      </div>
+        {this.props.loadingAzure && <LoadingIndicator />}
+        <div style={{ maxWidth: '500px', margin: 'auto' }}>
+          <Title />
+          <Well>
+            <div>
+              <Form horizontal>
+                <FormGroup controlId="formControlsSelect">
+                  <FormControl componentClass="select" placeholder="select">
+                    <option value="select">select</option>
+                    <option value="other">...</option>
+                  </FormControl>
+                </FormGroup>
+                <button>
+                  <Image src={image1} style={{ height: '100px', width: '100px' }} circle />
+                </button>
+              </Form>
+            </div>
+          </Well>
+        </div>
+      </div >
     );
   }
 }
 
 Home.propTypes = {
   onAzureRequest: PropTypes.func,
+  loadingAzure: PropTypes.bool,
+  responseAzure: PropTypes.object,
+  errorLoadingAzure: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
