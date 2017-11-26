@@ -6,13 +6,13 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import hongo from '../../images/mushrooms/image4.jpg';
 
+
 const BackgroundImage = styled.div`
-  background: url(${hongo}) no-repeat center center; 
+  background: url(${hongo}) repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  height: ${(props) => props.height}px;
 `;
 
 export default class App extends React.PureComponent {

@@ -9,15 +9,28 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import Title from 'components/Title';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import BruisesField from 'components/FormFields/BruisesField';
+import OdorField from 'components/FormFields/OdorField';
+import GillSizeField from 'components/FormFields/GillSizeField';
+
 import { makeSelectAzure, makeSelectAzureError, makeSelectAzureLoading } from './selectors';
 
-import image1 from '../../images/gillSize.png';
 import reducer from './reducer';
 import { azureMl } from './actions';
 import saga from './saga';
 
-
 export class Home extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.state = {
+      values: {
+        bruises: 'f',
+        odor: 'n',
+        gillsize: 'n',
+      },
+    };
+  }
+
 
   componentWillMount() {
     // this.props.onAzureRequest(
@@ -42,6 +55,12 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
     // }
   }
 
+  handleOnChangeValue(event) {
+    const values = Object.assign({}, this.state.values);
+    values[event.target.name] = event.target.value;
+    this.setState({ values });
+  }
+
   render() {
     // let bodyRender;
     // if (this.props.loadingAzure) {
@@ -58,29 +77,25 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
     return (
       <div>
         <Helmet>
-          <title>Hongos</title>
+          <title>Mushrooms</title>
           <meta name="description" content="Description of Home" />
         </Helmet>
-        {this.props.loadingAzure && <LoadingIndicator />}
-        <div style={{ maxWidth: '500px', margin: 'auto' }}>
-          <Title />
-          <Well>
-            <div>
-              <Form horizontal>
-                <FormGroup controlId="formControlsSelect">
-                  <FormControl componentClass="select" placeholder="select">
-                    <option value="select">select</option>
-                    <option value="other">...</option>
-                  </FormControl>
-                </FormGroup>
-                <button>
-                  <Image src={image1} style={{ height: '100px', width: '100px' }} circle />
-                </button>
-              </Form>
-            </div>
-          </Well>
+        <div style={{ paddingBottom: '100px' }}>
+          {this.props.loadingAzure && <LoadingIndicator />}
+          <div style={{ maxWidth: '500px', margin: 'auto' }}>
+            <Title />
+            <Well>
+              <div>
+                <Form horizontal>
+                  <BruisesField value={this.state.values.bruises} onChange={(e) => this.handleOnChangeValue(e)} />
+                  <OdorField value={this.state.values.odor} onChange={(e) => this.handleOnChangeValue(e)} />
+                  <GillSizeField value={this.state.values.gillsize} onChange={(e) => this.handleOnChangeValue(e)} />
+                </Form>
+              </div>
+            </Well>
+          </div>
         </div>
-      </div >
+      </div>
     );
   }
 }
