@@ -13,7 +13,6 @@ export function* getResponseFromAzure(action) {
 
   const requestHeaders = {
     'Content-Type': 'application/json',
-    Accept: 'application/json',
     Authorization: 'Bearer hGtWzt0byBxk8JxfQ3Tv2QyAtPq9UUgSRTL/v2isjlvr9Nxn9j8jbR6Axma0vOt74TUQSpFerGdPZMaadjyClw==',
   };
 
