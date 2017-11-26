@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Well, Form, FormGroup, FormControl, Image } from 'react-bootstrap';
+import { Well, Form, Button } from 'react-bootstrap';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Title from 'components/Title';
 import injectSaga from 'utils/injectSaga';
@@ -12,6 +12,11 @@ import injectReducer from 'utils/injectReducer';
 import BruisesField from 'components/FormFields/BruisesField';
 import OdorField from 'components/FormFields/OdorField';
 import GillSizeField from 'components/FormFields/GillSizeField';
+import GillColorField from 'components/FormFields/GillColorField';
+import StalkSurfaceAboveRField from 'components/FormFields/StalkSurfaceAboveRField';
+import StalkColorField from 'components/FormFields/StalkColorField';
+import RingTypeField from 'components/FormFields/RingTypeField';
+import SporePrintColorField from 'components/FormFields/SporePrintColorField';
 
 import { makeSelectAzure, makeSelectAzureError, makeSelectAzureLoading } from './selectors';
 
@@ -27,6 +32,13 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
         bruises: 'f',
         odor: 'n',
         gillsize: 'n',
+        gillcolor: 'w',
+        stalksurfaceabovering: 's',
+        stalksurfacebelowring: 's',
+        stalkcolorabovering: 'b',
+        stalkcolorbelowring: 'b',
+        ringtype: 'n',
+        sporeprintcolor: 'b',
       },
     };
   }
@@ -90,9 +102,45 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
                   <BruisesField value={this.state.values.bruises} onChange={(e) => this.handleOnChangeValue(e)} />
                   <OdorField value={this.state.values.odor} onChange={(e) => this.handleOnChangeValue(e)} />
                   <GillSizeField value={this.state.values.gillsize} onChange={(e) => this.handleOnChangeValue(e)} />
+                  <GillColorField value={this.state.values.gillcolor} onChange={(e) => this.handleOnChangeValue(e)} />
+                  <StalkSurfaceAboveRField
+                    value={this.state.values.stalksurfaceabovering}
+                    onChange={(e) => this.handleOnChangeValue(e)}
+                    name={'stalksurfaceabovering'}
+                    title={'Stalk surface above ring'}
+                  />
+                  <StalkSurfaceAboveRField
+                    value={this.state.values.stalksurfacebelowring}
+                    onChange={(e) => this.handleOnChangeValue(e)}
+                    name={'stalksurfacebelowring'}
+                    title={'Stalk surface below ring'}
+                  />
+                  <StalkColorField
+                    value={this.state.values.stalkcolorabovering}
+                    onChange={(e) => this.handleOnChangeValue(e)}
+                    name={'stalkcolorabovering'}
+                    title={'Stalk color above ring'}
+                  />
+                  <StalkColorField
+                    value={this.state.values.stalkcolorbelowring}
+                    onChange={(e) => this.handleOnChangeValue(e)}
+                    name={'stalkcolorbelowring'}
+                    title={'Stalk color below ring'}
+                  />
+                  <RingTypeField value={this.state.values.ringtype} onChange={(e) => this.handleOnChangeValue(e)} />
+                  <SporePrintColorField value={this.state.values.sporeprintcolor} onChange={(e) => this.handleOnChangeValue(e)} />
+
+                  <div style={{ marginTop: '20px', justifyContent: 'flex-end', display: 'flex' }}>
+                    <Button bsStyle="primary">
+                      {'Process'}
+                    </Button>
+                  </div>
                 </Form>
               </div>
             </Well>
+            <div style={{ color: 'gray', margin: 'auto', textAlign: 'center' }}>
+              {'Images taken from Google images and https://www.slideshare.net/rayborg/mushroom-tutorial.'}
+            </div>
           </div>
         </div>
       </div>
