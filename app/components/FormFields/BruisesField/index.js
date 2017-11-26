@@ -17,8 +17,8 @@ function BruisesField({ value, onChange }) {
           </FormControl>
         </FormGroup>
       </div>
-      <div style={{ display: 'flex' }}>
-        <ImageAndName name={'Bruises'} image={bruises} height={100} width={100} />
+      <div>
+        <ImageAndName name={'Bruises'} image={bruises} height={200} width={200} />
       </div>
     </div>
   );

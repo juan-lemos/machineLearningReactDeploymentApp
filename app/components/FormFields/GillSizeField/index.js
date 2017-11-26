@@ -16,8 +16,8 @@ function GillSizeField({ value, onChange }) {
           </FormControl>
         </FormGroup>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <ImageAndName name={'GillSize'} image={GillSize} height={300} width={300} />
+      <div >
+        <ImageAndName name={'Gill size'} image={GillSize} height={300} width={300} />
       </div>
     </div>
   );

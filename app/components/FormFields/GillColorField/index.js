@@ -21,7 +21,7 @@ function GillSizeField({ value, onChange }) {
       <h3>Gill Color</h3>
       <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
         <FormGroup controlId="formControlsSelect">
-          <FormControl value={value} name="gillsize" componentClass="select" placeholder="select" onChange={onChange}>
+          <FormControl value={value} name="gillcolor" componentClass="select" placeholder="select" onChange={onChange}>
             <option value="w">White</option>
             <option value="k">Black</option>
             <option value="n">Brown</option>

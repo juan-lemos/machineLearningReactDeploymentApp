@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Well, Form, Button } from 'react-bootstrap';
-import LoadingIndicator from 'components/LoadingIndicator';
 import Title from 'components/Title';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -17,6 +16,7 @@ import StalkSurfaceAboveRField from 'components/FormFields/StalkSurfaceAboveRFie
 import StalkColorField from 'components/FormFields/StalkColorField';
 import RingTypeField from 'components/FormFields/RingTypeField';
 import SporePrintColorField from 'components/FormFields/SporePrintColorField';
+import ModalMessageFromApi from 'components/ModalMessageFromApi';
 
 import { makeSelectAzure, makeSelectAzureError, makeSelectAzureLoading } from './selectors';
 
@@ -40,31 +40,17 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
         ringtype: 'n',
         sporeprintcolor: 'b',
       },
+      showModal: false,
     };
   }
 
 
-  componentWillMount() {
-    // this.props.onAzureRequest(
-    //   {
-    //     bruises: 't',
-    //     odor: 'p',
-    //     gillsize: 'n',
-    //     gillcolor: 'k',
-    //     stalksurfaceabovering: 's',
-    //     stalksurfacebelowring: 's',
-    //     stalkcolorabovering: 'w',
-    //     stalkcolorbelowring: 'w',
-    //     ringtype: 'p',
-    //     sporeprintcolor: 'k',
-    //   }
-    // );
-  }
-
   componentWillReceiveProps(nextProps) {
-    // if (!nextProps.loadingAzure && nextProps.responseAzure != null) {
-    //   console.log(nextProps.responseAzure);
-    // }
+    if (!nextProps.loadingAzure
+      && nextProps.responseAzure != null
+      && !this.state.showModal) {
+      this.setState({ showModal: true });
+    }
   }
 
   handleOnChangeValue(event) {
@@ -74,26 +60,20 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
   }
 
   render() {
-    // let bodyRender;
-    // if (this.props.loadingAzure) {
-    //   bodyRender = <LoadingIndicator />;
-    // } else if (this.props.errorLoadingAzure) {
-    //   bodyRender = <div>Error!</div>;
-    // } else if (this.props.responseAzure != null) {
-    //   bodyRender = (
-    //     <div>
-    //     </div>
-    //   );
-    // }
-
     return (
       <div>
+        {this.state.showModal &&
+          <ModalMessageFromApi
+            edible={(this.props.responseAzure.Results.output1.value.Values)[0][0]}
+            percentage={parseFloat((this.props.responseAzure.Results.output1.value.Values)[0][1])}
+            onClose={() => this.setState({ showModal: false })}
+          />
+        }
         <Helmet>
           <title>Mushrooms</title>
           <meta name="description" content="Description of Home" />
         </Helmet>
         <div style={{ paddingBottom: '100px' }}>
-          {this.props.loadingAzure && <LoadingIndicator />}
           <div style={{ maxWidth: '500px', margin: 'auto' }}>
             <Title />
             <Well>
@@ -103,11 +83,18 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
                   <OdorField value={this.state.values.odor} onChange={(e) => this.handleOnChangeValue(e)} />
                   <GillSizeField value={this.state.values.gillsize} onChange={(e) => this.handleOnChangeValue(e)} />
                   <GillColorField value={this.state.values.gillcolor} onChange={(e) => this.handleOnChangeValue(e)} />
+                  <RingTypeField value={this.state.values.ringtype} onChange={(e) => this.handleOnChangeValue(e)} />
                   <StalkSurfaceAboveRField
                     value={this.state.values.stalksurfaceabovering}
                     onChange={(e) => this.handleOnChangeValue(e)}
                     name={'stalksurfaceabovering'}
                     title={'Stalk surface above ring'}
+                  />
+                  <StalkColorField
+                    value={this.state.values.stalkcolorabovering}
+                    onChange={(e) => this.handleOnChangeValue(e)}
+                    name={'stalkcolorabovering'}
+                    title={'Stalk color above ring'}
                   />
                   <StalkSurfaceAboveRField
                     value={this.state.values.stalksurfacebelowring}
@@ -116,22 +103,15 @@ export class Home extends React.PureComponent { // eslint-disable-line react/pre
                     title={'Stalk surface below ring'}
                   />
                   <StalkColorField
-                    value={this.state.values.stalkcolorabovering}
-                    onChange={(e) => this.handleOnChangeValue(e)}
-                    name={'stalkcolorabovering'}
-                    title={'Stalk color above ring'}
-                  />
-                  <StalkColorField
                     value={this.state.values.stalkcolorbelowring}
                     onChange={(e) => this.handleOnChangeValue(e)}
                     name={'stalkcolorbelowring'}
                     title={'Stalk color below ring'}
                   />
-                  <RingTypeField value={this.state.values.ringtype} onChange={(e) => this.handleOnChangeValue(e)} />
                   <SporePrintColorField value={this.state.values.sporeprintcolor} onChange={(e) => this.handleOnChangeValue(e)} />
 
                   <div style={{ marginTop: '20px', justifyContent: 'flex-end', display: 'flex' }}>
-                    <Button bsStyle="primary">
+                    <Button bsStyle="primary" onClick={() => this.props.onAzureRequest(this.state.values)}>
                       {'Process'}
                     </Button>
                   </div>
