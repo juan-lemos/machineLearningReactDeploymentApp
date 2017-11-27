@@ -30,7 +30,7 @@ function ModalMessageFromApi({ edible, percentage, onClose }) {
               <h3 style={{ color: 'red', display: 'flex', justifyContent: 'center' }}> Poisonous !</h3>
             </div>
           }
-          <h4>{`Precision: ${precision}`}</h4>
+          <h4>{`Probabilidad: ${precision}`}</h4>
         </div>
       </Modal.Body>
 
